@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pastebin Lite</title>
+    <style>
+        body { font-family: Arial; background: #f2f2f2; }
+        .container { width: 500px; margin: 60px auto; background: #fff; padding: 20px; }
+        textarea { width: 100%; height: 140px; }
+        input { width: 100%; margin-top: 8px; }
+        button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pastebin Lite</h2>
+
+    <textarea id="content" placeholder="Enter paste content"></textarea>
+    <input type="number" id="ttl" placeholder="TTL (seconds)">
+    <input type="number" id="maxViews" placeholder="Max Views">
+
+    <button onclick="createPaste()">Create Paste</button>
+    <div id="result"></div>
+</div>
+
+<script>
+function createPaste() {
+    const content = document.getElementById("content").value.trim();
+    if (!content) { alert("Content required"); return; }
+
+    const payload = { content };
+    const ttl = document.getElementById("ttl").value;
+    const mv = document.getElementById("maxViews").value;
+    if (ttl) payload.ttl_seconds = Number(ttl);
+    if (mv) payload.max_views = Number(mv);
+
+    fetch("/api/pastes", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(d => {
+        document.getElementById("result").innerHTML =
+            `<a href="${d.url}" target="_blank">${d.url}</a>`;
+    });
+}
+</script>
+
+</body>
+</html>
