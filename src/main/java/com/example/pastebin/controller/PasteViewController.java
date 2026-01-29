@@ -1,11 +1,11 @@
 package com.example.pastebin.controller;
 
-import com.example.pastebin.Exception.PasteUnavailableException;
+
 import com.example.pastebin.entity.Paste;
 
 import com.example.pastebin.service.PasteService;
 
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +28,5 @@ public class PasteViewController {
         return "paste";
     }
 
-    @ExceptionHandler(PasteUnavailableException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFound() {
-        return "error";
-    }
+  
 }
